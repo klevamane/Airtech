@@ -6,6 +6,12 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+django = "*"
+djangorestframework = "*"
+psycopg2-binary = "*"
+django-filter = "*"
+cloudinary = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.6"

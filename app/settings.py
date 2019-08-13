@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+import cloudinary
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,6 +30,13 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+cloudinary.config(
+    cloud_name = 'dnrh79klc',
+    api_key = '232899594368453',
+    api_secret = 'Pkz-karkTucz9olzewBtm5I8yvw',
+)
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,6 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'cloudinary',
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -75,8 +87,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': 'airtech',
+        'USER': 'user',
+        'PASSWORD': 'user',
+        'PORT': 5432
     }
 }
 
@@ -118,3 +134,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# tell django which model to use as user model
+AUTH_USER_MODEL = 'user.User'
