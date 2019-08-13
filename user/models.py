@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
+from cloudinary.models import CloudinaryField
+
 
 # Create your models here.
 
@@ -24,8 +26,8 @@ class UserManager(BaseUserManager):
             **extrafields
         )
 
-        user.is_active = True,
-        user.set_password(password),
+        user.is_active = True
+        user.set_password(password)
         user.save(using=self.db)
         return user
 
@@ -40,6 +42,8 @@ class User(AbstractBaseUser):
     firstname = models.CharField(max_length=30)
     lastname = models.CharField(max_length=30)
     date_of_birth = models.DateField()
+    # note that the default character numbers must be less than or 100
+    image_url = models.ImageField(default='https://res.cloudinary.com/health-id/image/upload/v1554552278/Profile_Picture_Placeholder.png')
     email = models.EmailField(max_length=50, unique=True)
     password = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
