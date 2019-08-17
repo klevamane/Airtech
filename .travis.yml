@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.6"
+
+# install dependencies
+install:
+  - pip install pipenv
+  - pipenv install
+
+# run test scripts
+script:
+  - pytest
+# run coveralls after successful tests
+after_success:
+  - coveralls
+# Deploy to staging or production with proper settings
