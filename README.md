@@ -1,4 +1,5 @@
 
+[![Build Status](https://travis-ci.org/klevamane/Airtech.svg?branch=develop)](https://travis-ci.org/klevamane/Airtech)  [![Maintainability](https://api.codeclimate.com/v1/badges/b2e9924c1204f0bb5c52/maintainability)](https://codeclimate.com/github/klevamane/Airtech/maintainability)  [![Test Coverage](https://api.codeclimate.com/v1/badges/b2e9924c1204f0bb5c52/test_coverage)](https://codeclimate.com/github/klevamane/Airtech/test_coverage)
 # Airtech
 This project automates the flight booking system
 
