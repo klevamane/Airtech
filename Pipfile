@@ -16,6 +16,7 @@ pytest = "*"
 pytest-django = "*"
 pytest-cov = "*"
 coverage = "*"
+djangorestframework-simplejwt = "*"
 
 [requires]
 python_version = "3.6"
