@@ -51,7 +51,11 @@ class User(AbstractBaseUser):
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
-    object = UserManager()
+    # ensure this is objects and not object
+    # else User.objects.all() won't work
+    # it has to be Class.object.all()
+    # and most 3rd party packages depend on objects
+    objects = UserManager()
 
     REQUIRED_FIELDS = ['firstname', 'lastname', 'date_of_birth']
     USERNAME_FIELD = 'email'

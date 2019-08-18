@@ -8,5 +8,18 @@ class UserSerializer(ModelSerializer):
         fields = '__all__'
         read_only_fields = ('is_admin', 'last_login', 'is_active')
 
+
+class RetrieveUserSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ['password', 'last_login']
+        read_only_fields = ('is_admin', 'last_login', 'is_active')
+
+
+class UpdateUserSerializer (ModelSerializer):
+    class Meta:
+        model = User
+        read_only_fields = ('is_admin', 'is_active', 'email', 'created_at', 'updated_at', 'last_login')
+
     def create(self, validated_data):
         return User.object.create_user(**validated_data)
