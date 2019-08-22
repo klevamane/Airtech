@@ -50,6 +50,7 @@ class User(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+    # TODO add mobile number
 
     # ensure this is objects and not object
     # else User.objects.all() won't work
