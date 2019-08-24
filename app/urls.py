@@ -23,4 +23,5 @@ urlpatterns = [
     path('v1/api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('v1/api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('v1/api/flights/', include('flights.urls')),
+    path('v1/api/tickets/', include('tickets.urls')),
 ]

@@ -48,11 +48,15 @@ class Flight(AbstractBaseModel):
     arrival_time = models.DateTimeField(null=False, blank=False)
     gate = models.IntegerField(null=False, blank=False)
     is_active = models.BooleanField(default=True)
-    seats = models.PositiveIntegerField(validators=[validate_seats], null=False, blank=False,)
+    seats = models.IntegerField(validators=[validate_seats], null=False, blank=False,)
     status = models.CharField(max_length=10, validators=[validate_status], default='active')
 
     def __str__(self):
         return 'flight name {} flight code {}'.format(self.name, self.code)
 
     # Todo get the total number of available seats
+
+    @property
+    def bookable_seats(self):
+        return self.seats - self.tickets.count()
     # Todo validate that source and destination is not the same
