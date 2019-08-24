@@ -59,3 +59,4 @@ class IsOwnerOrIsAdmin(BasePermission):
             return True
         # Instance must have an attribute named `owner`. but ours is developer
         return obj == request.user
+

@@ -3,7 +3,7 @@ from rest_framework.response import Response
 
 from .serializer import UserSerializer, RetrieveUserSerializer, UpdateUserSerializer
 from .models import User
-from utils.utils import IsOwner, IsOwnerOrIsAdmin
+from helpers.utils import IsOwner, IsOwnerOrIsAdmin
 # Create your views here.
 
 

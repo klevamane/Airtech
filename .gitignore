@@ -158,6 +158,7 @@ dmypy.json
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
+
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
@@ -217,3 +218,6 @@ fabric.properties
 .idea/sonarlint
 
 # End of https://www.gitignore.io/api/django,pycharm
+
+\.vscode/
+\.idea/
