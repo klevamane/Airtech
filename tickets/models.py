@@ -17,7 +17,7 @@ def validate_payment_status(value):
 class Tickets(AbstractBaseModel):
     """The ticket class"""
 
-    flight_id = models.ForeignKey('flight.flight', related_name='tickets', on_delete=models.DO_NOTHING)
+    flight_id = models.ForeignKey('flights.flight', related_name='tickets', on_delete=models.DO_NOTHING)
     # enables User.tickets
     customer = models.ForeignKey('user.user', related_name='tickets', on_delete=models.DO_NOTHING)
     payment_status = models.CharField(max_length=8, validators=[validate_payment_status], default='reserved')

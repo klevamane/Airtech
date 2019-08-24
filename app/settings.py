@@ -49,7 +49,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'cloudinary',
-    'user'
+    'user',
+    'flights',
+    'tickets'
 ]
 
 MIDDLEWARE = [
