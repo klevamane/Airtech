@@ -9,8 +9,12 @@ STATUS = ['landed', 'delayed', 'active', 'filled', 'airborne']
 def validate_seats(value):
     if type(value) is not int:
         raise ValidationError('Must be an Integer')
+
     if value > 200:
         raise ValidationError('Total flight seats must not be more than 200')
+
+    if value < 50:
+        raise ValidationError('Total flight seats must not be less than 50')
 
 
 def validate_status(value):
@@ -48,11 +52,15 @@ class Flight(AbstractBaseModel):
     arrival_time = models.DateTimeField(null=False, blank=False)
     gate = models.IntegerField(null=False, blank=False)
     is_active = models.BooleanField(default=True)
-    seats = models.PositiveIntegerField(validators=[validate_seats], null=False, blank=False,)
+    seats = models.IntegerField(validators=[validate_seats], null=False, blank=False,)
     status = models.CharField(max_length=10, validators=[validate_status], default='active')
 
     def __str__(self):
         return 'flight name {} flight code {}'.format(self.name, self.code)
 
     # Todo get the total number of available seats
+
+    @property
+    def bookable_seats(self):
+        return self.seats - self.tickets.count()
     # Todo validate that source and destination is not the same

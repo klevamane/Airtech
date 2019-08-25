@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from .serializer import UserSerializer, RetrieveUserSerializer, UpdateUserSerializer
 from .models import User
@@ -28,7 +29,7 @@ class RetrieveUser(generics.RetrieveAPIView):
 
     queryset = User.objects.all().exclude()
     serializer_class = RetrieveUserSerializer
-    permission_classes = (IsOwnerOrIsAdmin,)
+    permission_classes = (IsAuthenticated, IsOwnerOrIsAdmin)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -44,3 +45,4 @@ class RetrieveUser(generics.RetrieveAPIView):
 class UpdateUser(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UpdateUserSerializer
+    permission_classes = (IsAuthenticated, IsOwner)
