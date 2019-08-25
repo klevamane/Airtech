@@ -12,22 +12,49 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('flights', '0001_initial'),
+        ("flights", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Tickets',
+            name="Tickets",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateField(auto_now_add=True)),
-                ('updated_at', models.DateField(auto_now=True)),
-                ('payment_status', models.CharField(default='reserved', max_length=8, validators=[tickets.models.validate_payment_status])),
-                ('customer', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='tickets', to=settings.AUTH_USER_MODEL)),
-                ('flight_id', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, related_name='tickets', to='flights.Flight')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateField(auto_now_add=True)),
+                ("updated_at", models.DateField(auto_now=True)),
+                (
+                    "payment_status",
+                    models.CharField(
+                        default="reserved",
+                        max_length=8,
+                        validators=[tickets.models.validate_payment_status],
+                    ),
+                ),
+                (
+                    "customer",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="tickets",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "flight_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="tickets",
+                        to="flights.Flight",
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-            },
-        ),
+            options={"abstract": False},
+        )
     ]

@@ -11,6 +11,8 @@ class ListFlights(generics.ListAPIView):
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
 
+    #Todo list of available flight should be
+    # flights with take of time greater than now
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = FlightSerializer(queryset, many=True)
