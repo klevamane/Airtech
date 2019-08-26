@@ -32,9 +32,9 @@ ALLOWED_HOSTS = []
 
 
 cloudinary.config(
-    cloud_name = 'dnrh79klc',
-    api_key = '232899594368453',
-    api_secret = 'Pkz-karkTucz9olzewBtm5I8yvw',
+    cloud_name = os.getenv("CLOUDINARY_NAME"),
+    api_key = os.getenv("CLOUDINARY_API_KEY"),
+    api_secret = os.getenv("CLOUDINARY_API_SECRET"),
 )
 
 
@@ -176,9 +176,9 @@ REST_FRAMEWORK = {
 }
 
 
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
-EMAIL_HOST_USER="authorshaven@gmail.com"
-EMAIL_HOST_PASSWORD="fargoteam38@"
+EMAIL_HOST_USER=os.getenv("EMAIL_HOST_USER"),
+EMAIL_HOST_PASSWORD=os.getenv("EMAIL_HOST_PASSWORD"),
