@@ -27,14 +27,15 @@ The project has two sections FrontEnd and BackEnd, the instructions here is stru
 
 #### How to Start the backend
 * create and activate a virtual environment. Here is an example using Pipenv: run `pipenv install`
-* Install the base dependencies `
+* Start shell `pipenv shell`
 * Run migration `python manage.py migrate`
 * Start the app via Django `python manage.py runserver`
+* create a database in postgres and make the connection via the environment variable
 
 #### To run locally
 * Start the app via Django `python manage.py runserver`
 * Open a HTTP client (e.g. Postman)...:
-    * Make a `POST` request to the endpoint `/auth/user/` with Headers:
+    * Make a `POST` request to the endpoint `v1/api/login` with Headers:
     ```json
     Authorization: {jwt-token}
     ```
