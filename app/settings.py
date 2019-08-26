@@ -32,9 +32,9 @@ ALLOWED_HOSTS = []
 
 
 cloudinary.config(
-    cloud_name = 'dnrh79klc',
-    api_key = '232899594368453',
-    api_secret = 'Pkz-karkTucz9olzewBtm5I8yvw',
+    cloud_name = environ.get("CLOUDINARY_NAME"),
+    api_key = environ.get("CLOUDINARY_API_KEY"),
+    api_secret = environ.get("CLOUDINARY_API_SECRET"),
 )
 
 
@@ -92,9 +92,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'airtech',
-        'USER': 'user',
-        'PASSWORD': 'user',
+        'NAME': environ.get("DB_NAME"),
+        'USER': environ.get("DB_USER"),
+        'PASSWORD': environ.get("DB_PWD"),
+        'HOST': environ.get("DB_HOST"),
         'PORT': 5432
     }
 }
@@ -180,5 +181,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
-EMAIL_HOST_USER="authorshaven@gmail.com"
-EMAIL_HOST_PASSWORD ="fargoteam38@"
+EMAIL_HOST_USER=environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = environ.get("EMAIL_HOST_PASSWORD")
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
