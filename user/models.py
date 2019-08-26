@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+import re
 
 from cloudinary.models import CloudinaryField
 from rest_framework.validators import ValidationError
@@ -16,6 +17,14 @@ def validate_image(image):
         raise ValidationError('Maximum file size is 500kb')
     # if not image.content_type():
         # raise ValidationError('File should be image.')
+
+
+def validate_pwd(password):
+    if not re.findall ('\d', password):
+        raise ValidationError ("The password must contain at least 1 digit, 0-9.")
+
+    if len(password) < 6:
+        raise ValidationError("The password must must be of at least 6 characters")
 
 
 class UserManager(BaseUserManager):
@@ -57,9 +66,8 @@ class User(AbstractBaseUser):
     # note that the default character numbers must be less than or 100
     # add https: // res.cloudinary.com / dnrh79klc + /image/path
     image = CloudinaryField('image', default="https://res.cloudinary.com/health-id/image/upload/v1554552278/Profile_Picture_Placeholder.png", validators=[validate_image])
-    # image_url = models.ImageField(default='https://res.cloudinary.com/health-id/image/upload/v1554552278/Profile_Picture_Placeholder.png')
     email = models.EmailField(max_length=50, unique=True)
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=100, validators=[validate_pwd])
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True)

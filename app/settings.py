@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
+from os import environ
 import cloudinary
 from datetime import timedelta
 
@@ -181,4 +181,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
 EMAIL_HOST_USER="authorshaven@gmail.com"
-EMAIL_HOST_PASSWORD="fargoteam38@"
+EMAIL_HOST_PASSWORD ="fargoteam38@"
