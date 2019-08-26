@@ -5,8 +5,12 @@ from .models import User
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        exclude = ['last_login']
         read_only_fields = ('id', 'is_admin', 'last_login', 'is_active')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
 
 
 class RetrieveUserSerializer(ModelSerializer):
@@ -20,6 +24,4 @@ class UpdateUserSerializer (ModelSerializer):
     class Meta:
         model = User
         read_only_fields = ('id', 'is_admin', 'is_active', 'email', 'created_at', 'updated_at', 'last_login')
-
-    def create(self, validated_data):
-        return User.object.create_user(**validated_data)
+        exclude = ['is_admin', 'last_login', 'is_active']

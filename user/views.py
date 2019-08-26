@@ -1,6 +1,10 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.parsers import MultiPartParser
+from rest_framework.views import APIView
+
+from django.http import Http404, HttpResponse
 
 from .serializer import UserSerializer, RetrieveUserSerializer, UpdateUserSerializer
 from .models import User
@@ -44,5 +48,33 @@ class RetrieveUser(generics.RetrieveAPIView):
 
 class UpdateUser(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
+    parser_classes = (MultiPartParser,)
     serializer_class = UpdateUserSerializer
     permission_classes = (IsAuthenticated, IsOwner)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop ('partial', False)
+        instance = self.get_object ()
+        serializer = self.get_serializer (instance, data=request.data, partial=partial)
+        serializer.is_valid (raise_exception=True)
+
+        serializer.save ()
+
+        return Response (serializer.data)
+
+
+class UserPassport(APIView):
+    def get_single_user_object(self, pk):
+        try:
+            return User.objects.get (pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+    def delete(self, request, pk, format=None):
+        user_photo_to_be_deleted = self.get_single_user_object (pk=pk)
+        user_photo_to_be_deleted['image'] = None
+        user_photo_to_be_deleted.save()
+        print('idey herer')
+        return Response (status=status.HTTP_200_OK)
+
+    # permission_classes = (IsAuthenticated, IsOwner)
