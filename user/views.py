@@ -1,10 +1,12 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
+from rest_framework.decorators import permission_classes
 
-from django.http import Http404, HttpResponse
+
+from django.http import Http404, HttpResponseForbidden
 
 from .serializer import UserSerializer, RetrieveUserSerializer, UpdateUserSerializer
 from .models import User
@@ -17,6 +19,8 @@ class ListCreateUsers(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
     def list(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            return HttpResponseForbidden()
         queryset = self.get_queryset()
         serializer = UserSerializer(queryset, many=True)
         context = {
@@ -31,7 +35,7 @@ class ListCreateUsers(generics.ListCreateAPIView):
 class RetrieveUser(generics.RetrieveAPIView):
     """Get the iser detail"""
 
-    queryset = User.objects.all().exclude()
+    queryset = User.objects.all()
     serializer_class = RetrieveUserSerializer
     permission_classes = (IsAuthenticated, IsOwnerOrIsAdmin)
 
@@ -64,6 +68,7 @@ class UpdateUser(generics.RetrieveUpdateAPIView):
 
 
 class UserPassport(APIView):
+    permission_classes = [IsAuthenticated, IsOwner]
     def get_single_user_object(self, pk):
         try:
             return User.objects.get (pk=pk)
@@ -71,10 +76,11 @@ class UserPassport(APIView):
             raise Http404
 
     def delete(self, request, pk, format=None):
-        user_photo_to_be_deleted = self.get_single_user_object (pk=pk)
+        if request.user.id != pk:
+            return HttpResponseForbidden()
+        user_photo_to_be_deleted = self.get_single_user_object(pk=pk)
         user_photo_to_be_deleted['image'] = None
         user_photo_to_be_deleted.save()
-        print('idey herer')
         return Response (status=status.HTTP_200_OK)
 
     # permission_classes = (IsAuthenticated, IsOwner)

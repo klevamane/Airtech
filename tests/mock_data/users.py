@@ -5,3 +5,4 @@ valid_user_one = {
     "password": "password123",
     "date_of_birth": "1999-01-01"
 }
+
