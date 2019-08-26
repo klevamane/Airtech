@@ -5,6 +5,8 @@ from rest_framework.authtoken.models import Token
 from django.core.mail import send_mail
 from datetime import datetime
 
+from rest_framework.validators import ValidationError
+
 
 class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs):

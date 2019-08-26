@@ -2,9 +2,21 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 from cloudinary.models import CloudinaryField
+from rest_framework.validators import ValidationError
+# from helpers.utils import validate_image
 
 
 # Create your models here.
+def validate_image(image):
+    if not (image.content_type == 'image/jpeg' or image.content_type == 'image/png' or image.content_type == 'image/jpg'):
+        raise ValidationError('Must be an image of type jpeg, jpg, or png')
+    image_size = image.size
+    mb_limit = 0.5
+    if image_size > mb_limit *1024*1024:
+        raise ValidationError('Maximum file size is 500kb')
+    # if not image.content_type():
+        # raise ValidationError('File should be image.')
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, lastname, firstname, date_of_birth, **extrafields):
@@ -43,14 +55,15 @@ class User(AbstractBaseUser):
     lastname = models.CharField(max_length=30)
     date_of_birth = models.DateField()
     # note that the default character numbers must be less than or 100
-    image_url = models.ImageField(default='https://res.cloudinary.com/health-id/image/upload/v1554552278/Profile_Picture_Placeholder.png')
+    # add https: // res.cloudinary.com / dnrh79klc + /image/path
+    image = CloudinaryField('image', default="https://res.cloudinary.com/health-id/image/upload/v1554552278/Profile_Picture_Placeholder.png", validators=[validate_image])
+    # image_url = models.ImageField(default='https://res.cloudinary.com/health-id/image/upload/v1554552278/Profile_Picture_Placeholder.png')
     email = models.EmailField(max_length=50, unique=True)
     password = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
-    # TODO add mobile number
 
     # ensure this is objects and not object
     # else User.objects.all() won't work
@@ -72,6 +85,11 @@ class User(AbstractBaseUser):
 
     def get_username(self):
         return self.email
+
+    # allows assignment property to the image value
+    # from the view
+    def __setitem__(self, key, value):
+        self.image = value
 
     @property
     def is_staff(self):
