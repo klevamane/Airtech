@@ -44,8 +44,8 @@ The project has two sections FrontEnd and BackEnd, the instructions here is stru
     * Token is {token value}
 
 
-
-Test locally by executing "npm test"
+#### To run tests locally
+* `pytest`
 
 
 ### Built with
