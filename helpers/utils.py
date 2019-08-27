@@ -5,22 +5,6 @@ from rest_framework.authtoken.models import Token
 from django.core.mail import send_mail
 from datetime import datetime
 
-from rest_framework.validators import ValidationError
-
-
-class CustomAuthToken(ObtainAuthToken):
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'token': token.key,
-            'user_id': user.pk,
-            'email': user.email
-        })
-
-
 class IsOwner(BasePermission):
     """
        Object-level permission to only allow owners of an object to edit it.

@@ -1,3 +1,4 @@
+
 """
 Django settings for app project.
 
@@ -92,10 +93,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': environ.get("DB_NAME"),
-        'USER': environ.get("DB_USER"),
-        'PASSWORD': environ.get("DB_PWD"),
-        'HOST': environ.get("DB_HOST"),
+        'NAME': "airtech",
+        # 'USER': environ.get("DB_USER"),
+        'USER': 'user',
+        'PASSWORD': 'user',
+        # 'PASSWORD': environ.get("DB_PWD"),
+        # 'HOST': environ.get("DB_HOST"),
         'PORT': 5432
     }
 }
@@ -185,3 +188,4 @@ EMAIL_HOST_USER=environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = environ.get("EMAIL_HOST_PASSWORD")
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+

@@ -18,7 +18,7 @@ pytest-cov = "*"
 coverage = "*"
 djangorestframework-simplejwt = "*"
 python-coveralls = "*"
-
+gunicorn = "*"
 
 [requires]
 python_version = "3.6"

@@ -7,8 +7,6 @@ STATUS = ['landed', 'delayed', 'active', 'filled', 'airborne']
 
 
 def validate_seats(value):
-    if type(value) is not int:
-        raise ValidationError('Must be an Integer')
 
     if value > 200:
         raise ValidationError('Total flight seats must not be more than 200')

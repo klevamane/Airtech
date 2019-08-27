@@ -1,7 +1,9 @@
 import pytest
 from user.models import User
-from .mock_data.users import valid_user_one
+from flights.models import Flight, Airport
+from tickets.models import Tickets
 from django.contrib.auth.hashers import pbkdf2, make_password
+import datetime
 
 # @pytest.fixture(scope='function')
 # def saved_valid_user_one(transactional_db):
@@ -61,3 +63,58 @@ def admin_user():
     }
     user = User(**params)
     return user
+
+
+@pytest.fixture(scope='module')
+def airport1():
+    params = {
+    'name': 'airportone',
+    'code': 'APO',
+    'city': 'portharcourt',
+    'country': 'Nigeria',
+    }
+    airport = Airport(**params)
+    return airport
+
+
+@pytest.fixture(scope='module')
+def airport2():
+    params = {
+    'name': 'airportwo',
+    'code': 'LOS',
+    'city': 'lag',
+    'country': 'Nigeria',
+    }
+    airport = Airport(**params)
+    return airport
+
+
+@pytest.fixture(scope='module')
+def flightone():
+    params = {
+    'name': 'flightone',
+    'code':'FLIONE',
+    'source' : None,
+    'destination' : None,
+    'takeoff_time' : datetime.datetime.now(),
+    'arrival_time' : datetime.datetime.now() + datetime.timedelta(hours=1),
+    'gate': 1,
+    'is_active': True,
+    'seats': 70,
+    'status': 'active',
+
+    }
+    flight = Flight(**params)
+    return flight
+
+
+@pytest.fixture(scope='module')
+def ticket():
+    params = {
+        'flight_id': None,
+        'customer': None,
+        'payment_status': 'reserved'
+    }
+    ticket = Tickets(**params)
+    return ticket
+

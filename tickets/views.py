@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
 from django.utils.dateparse import parse_date
-from rest_framework.views import APIView
+from helpers.utils import IsOwnerOrIsAdmin
 
 from datetime import datetime
 
@@ -52,6 +52,8 @@ class CreateTicket(generics.CreateAPIView):
 class GetReservations(generics.ListAPIView):
     queryset = Tickets.objects.all()
     serializer_class = TicketSerializer
+
+    # def get_queryset(self):
 
     def list(self, request, *args, **kwargs):
         data = None

@@ -44,7 +44,6 @@ class TestUser:
         client = APIClient()
         response = client.post(path, signup_data)
 
-        # print("response ", dir(response.data))
         assert response.data['password'][0] == "The password must contain at least 1 digit, 0-9."
         assert response.status_code == 400
 
@@ -61,7 +60,6 @@ class TestUser:
         client = APIClient()
         response = client.post(path, signup_data)
 
-        # print("response ", dir(response.data))
         assert response.data['password'][0] == "The password must must be of at least 6 characters"
         assert response.status_code == 400
 
@@ -72,8 +70,6 @@ class TestUser:
         path = reverse('list_user')
         client = APIClient()
         response = client.post(path, signup_data)
-        print('**** response data ', response.data)
-        # print("response ", dir(response.data))
         assert response.data['password'][0] == "This field is required."
         assert response.data['email'][0] == "This field is required."
         assert response.data['lastname'][0] == "This field is required."
