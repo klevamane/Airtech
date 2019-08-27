@@ -33,7 +33,7 @@ class ListCreateUsers(generics.ListCreateAPIView):
 
 
 class RetrieveUser(generics.RetrieveAPIView):
-    """Get the iser detail"""
+    """Get the user detail"""
 
     queryset = User.objects.all()
     serializer_class = RetrieveUserSerializer

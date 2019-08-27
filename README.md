@@ -50,8 +50,8 @@ The project has two sections FrontEnd and BackEnd, the instructions here is stru
 * `pytest`
 
 #### Admin user login
-email: admin@test.com
-password: password123
+- email: admin@test.com
+- password: password123
 
 
 ### Built with

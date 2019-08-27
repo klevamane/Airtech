@@ -1,3 +1,4 @@
+# PRODUCTION
 
 """
 Django settings for app project.
@@ -29,7 +30,7 @@ SECRET_KEY = '(dz9ftv4bw1k)=&9o*7kr84!)lreweyss3-%t#@h!6!go^kkwf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 cloudinary.config(
@@ -93,12 +94,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': "airtech",
-        # 'USER': environ.get("DB_USER"),
-        'USER': 'user',
-        'PASSWORD': 'user',
-        # 'PASSWORD': environ.get("DB_PWD"),
-        # 'HOST': environ.get("DB_HOST"),
+        'NAME': environ.get("DB_NAME"),
+        'USER': environ.get("DB_USER"),
+        # 'USER': 'user',
+        # 'PASSWORD': 'user',
+        'PASSWORD': environ.get("DB_PWD"),
+        'HOST': environ.get("DB_HOST"),
         'PORT': 5432
     }
 }
@@ -184,8 +185,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_SSL = True
 EMAIL_PORT = 465
-EMAIL_HOST_USER=environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = environ.get("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER="authorshaven@gmail.com"
+EMAIL_HOST_PASSWORD ="fargoteam38@"
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
