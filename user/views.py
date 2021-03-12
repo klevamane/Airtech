@@ -10,8 +10,7 @@ from django.http import Http404, HttpResponseForbidden
 
 from .serializer import UserSerializer, RetrieveUserSerializer, UpdateUserSerializer
 from .models import User
-from helpers.utils import IsOwner, IsOwnerOrIsAdmin
-# Create your views here.
+from helpers.utils import IsOwner, IsOwnerOrIsAdmin, set_true_context
 
 
 class ListCreateUsers(generics.ListCreateAPIView):
@@ -23,11 +22,7 @@ class ListCreateUsers(generics.ListCreateAPIView):
             return HttpResponseForbidden()
         queryset = self.get_queryset()
         serializer = UserSerializer(queryset, many=True)
-        context = {
-            'data': serializer.data,
-            'message': 'operation successful',
-            'success': True
-        }
+        context = set_true_context(serializer.data, "operation successful")
 
         return Response(context, status=status.HTTP_200_OK)
 
@@ -42,11 +37,7 @@ class RetrieveUser(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.serializer_class(instance)
-        context = {
-            'data': serializer.data,
-            'message': 'operation successful',
-            'success': True
-        }
+        context = set_true_context(serializer.data, "operation successful")
         return Response(context, status=status.HTTP_200_OK)
 
 
@@ -69,6 +60,7 @@ class UpdateUser(generics.RetrieveUpdateAPIView):
 
 class UserPassport(APIView):
     permission_classes = [IsAuthenticated, IsOwner]
+
     def get_single_user_object(self, pk):
         try:
             return User.objects.get (pk=pk)
@@ -83,4 +75,3 @@ class UserPassport(APIView):
         user_photo_to_be_deleted.save()
         return Response (status=status.HTTP_200_OK)
 
-    # permission_classes = (IsAuthenticated, IsOwner)

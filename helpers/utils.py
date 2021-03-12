@@ -64,10 +64,15 @@ def validate_date(date_text):
         date_text(str): The date
     """
     try:
-        if datetime is None:
-            return True
-        if date_text:
-            datetime.strptime(date_text, '%Y-%m-%d')
+        datetime.strptime(date_text, '%Y-%m-%d')
         return True
     except ValueError:
         return False
+
+
+def set_true_context(data, msg):
+    return {"data": data, "message": msg, "success": True}
+
+
+def set_false_context(data, msg):
+    return {"data": data, "message": msg, "success": True}

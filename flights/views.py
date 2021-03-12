@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAdminUser
 from .serializers import FlightSerializer, AirportSerializer
 from .models import Flight
 from .models import Airport
+from helpers.utils import set_true_context, set_false_context
 
 
 class ListFlights(generics.ListAPIView):
@@ -16,11 +17,7 @@ class ListFlights(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = FlightSerializer(queryset, many=True)
-        context = {
-            'data': serializer.data,
-            'message': 'operation successful',
-            'success': True
-        }
+        context = set_true_context(serializer.data, "operation successful")
         return Response(data=context, status=status.HTTP_200_OK)
 
 
@@ -49,11 +46,7 @@ class RetrieveFlight(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.serializer_class(instance)
-        context = {
-            'data': serializer.data,
-            'message': 'operation successful',
-            'success': True
-        }
+        context = set_true_context(serializer.data, "operation successful")
         return Response(context, status=status.HTTP_200_OK)
 
 
@@ -65,9 +58,5 @@ class AddAirport(generics.ListCreateAPIView):
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = AirportSerializer(queryset, many=True)
-        context = {
-            'data': serializer.data,
-            'message': 'operation successful',
-            'success': True
-        }
+        context = set_true_context(serializer.data, "operation successful")
         return Response(context, status=status.HTTP_200_OK)
