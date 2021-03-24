@@ -1,18 +1,18 @@
-from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework import generics, status
 from rest_framework.permissions import IsAdminUser
+from rest_framework.response import Response
 
-from .serializers import FlightSerializer, AirportSerializer
-from .models import Flight
-from .models import Airport
-from helpers.utils import set_true_context, set_false_context
+from helpers.utils import set_true_context
+
+from .models import Airport, Flight
+from .serializers import AirportSerializer, FlightSerializer
 
 
 class ListFlights(generics.ListAPIView):
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
 
-    #Todo list of available flight should be
+    # Todo list of available flight should be
     # flights with take of time greater than now
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
@@ -28,7 +28,7 @@ class CreateFlight(generics.CreateAPIView):
 
 
 class UpdateFlight(generics.UpdateAPIView):
-    queryset = Flight.objects.all ()
+    queryset = Flight.objects.all()
     serializer_class = FlightSerializer
     permission_classes = [IsAdminUser]
 
