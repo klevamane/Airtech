@@ -1,0 +1,17 @@
+chardet==4.0.0
+cloudinary==1.24.0
+coverage==5.5
+Django==3.1.7
+django-filter==2.4.0
+djangorestframework==3.12.2
+djangorestframework-simplejwt==4.6.0
+gunicorn==20.0.4
+Pillow==8.1.2
+psycopg2-binary==2.8.6
+py==1.10.0
+PyJWT==2.0.1
+pyparsing==2.4.7
+pytest==6.2.2
+pytest-cov==2.11.1
+pytest-django==4.1.0
+python-coveralls==2.9.3
