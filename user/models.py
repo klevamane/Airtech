@@ -9,9 +9,8 @@ from rest_framework.validators import ValidationError
 def validate_image(image):
     if image.content_type not in ['image/jpeg', 'image/png', 'image/jpg']:
         raise ValidationError('Must be an image of type jpeg, jpg, or png')
-    image_size = image.size
-    mb_limit = 0.5
-    if image_size > mb_limit * 1024 * 1024:
+    # 0.5 MB
+    if image.size > 0.5 * 1024 * 1024:
         raise ValidationError('Maximum file size is 500kb')
 
 
@@ -48,6 +47,7 @@ class UserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
+    # explicit over implicit
     def create_superuser(self, email, password, lastname, firstname, date_of_birth):
         user = self.create_user(email, password, lastname, firstname, date_of_birth)
         user.is_admin = True
