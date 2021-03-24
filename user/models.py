@@ -1,27 +1,23 @@
+import re
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-import re
 
 from cloudinary.models import CloudinaryField
 from rest_framework.validators import ValidationError
-# from helpers.utils import validate_image
 
 
-# Create your models here.
 def validate_image(image):
-    if not (image.content_type == 'image/jpeg' or image.content_type == 'image/png' or image.content_type == 'image/jpg'):
+    if image.content_type not in ['image/jpeg', 'image/png', 'image/jpg']:
         raise ValidationError('Must be an image of type jpeg, jpg, or png')
     image_size = image.size
     mb_limit = 0.5
-    if image_size > mb_limit *1024*1024:
+    if image_size > mb_limit * 1024 * 1024:
         raise ValidationError('Maximum file size is 500kb')
-    # if not image.content_type():
-        # raise ValidationError('File should be image.')
 
 
 def validate_pwd(password):
-    if not re.findall ('\d', password):
-        raise ValidationError ("The password must contain at least 1 digit, 0-9.")
+    if not re.findall("\d", password):
+        raise ValidationError("The password must contain at least 1 digit, 0-9.")
 
     if len(password) < 6:
         raise ValidationError("The password must must be of at least 6 characters")
@@ -30,13 +26,13 @@ def validate_pwd(password):
 class UserManager(BaseUserManager):
     def create_user(self, email, password, lastname, firstname, date_of_birth, **extrafields):
         if not email:
-            ValueError ('Email field is required')
+            ValueError('Email field is required')
         if not firstname:
-            ValueError ('Firstname field is required')
+            ValueError('Firstname field is required')
         if not lastname:
-            ValueError ('Lastname field is required')
+            ValueError('Lastname field is required')
         if not date_of_birth:
-            ValueError ('Date of birth field is required')
+            ValueError('Date of birth field is required')
 
         user = self.model(
             email=self.normalize_email(email),
@@ -53,7 +49,7 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password, lastname, firstname, date_of_birth):
-        user = self.create_user (email, password, lastname, firstname, date_of_birth)
+        user = self.create_user(email, password, lastname, firstname, date_of_birth)
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -65,7 +61,9 @@ class User(AbstractBaseUser):
     date_of_birth = models.DateField()
     # note that the default character numbers must be less than or 100
     # add https: // res.cloudinary.com / dnrh79klc + /image/path
-    image = CloudinaryField('image', default="https://res.cloudinary.com/health-id/image/upload/v1554552278/Profile_Picture_Placeholder.png", validators=[validate_image])
+    image = CloudinaryField('image',
+                            default="https://res.cloudinary.com/health-id/image/upload/v1554552278/Profile_Picture_Placeholder.png",
+                            validators=[validate_image])
     email = models.EmailField(max_length=50, unique=True)
     password = models.CharField(max_length=100, validators=[validate_pwd])
     is_active = models.BooleanField(default=True)
