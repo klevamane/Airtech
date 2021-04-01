@@ -5,6 +5,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 from rest_framework.validators import ValidationError
 
+from helpers.models import TimeStamp
+
 
 def validate_image(image):
     if image.content_type not in ["image/jpeg", "image/png", "image/jpg"]:
@@ -57,7 +59,7 @@ class UserManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, TimeStamp):
     firstname = models.CharField(max_length=30)
     lastname = models.CharField(max_length=30)
     date_of_birth = models.DateField()
@@ -72,8 +74,6 @@ class User(AbstractBaseUser):
     password = models.CharField(max_length=100, validators=[validate_pwd])
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    created_at = models.DateField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
 
     # ensure this is objects and not object
     # else User.objects.all() won't work
