@@ -1,16 +1,15 @@
-from django.db import models
-from helpers.models import AbstractBaseModel
 from django.apps import apps
 from django.core.exceptions import ValidationError
-from user.models import User
-
-from django.db.models.signals import pre_save, post_save
+from django.db import models
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.response import Response
 
 from flights.models import Flight
+from helpers.models import TimeStamp
 from helpers.utils import send_light_email
+from user.models import User
 
 # Create your models here.
 
@@ -22,7 +21,7 @@ def validate_payment_status(value):
         raise ValidationError("Status must either be reserved or paid")
 
 
-class Tickets(AbstractBaseModel):
+class Tickets(TimeStamp):
     """The ticket class"""
 
     flight_id = models.ForeignKey(
