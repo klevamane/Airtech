@@ -1,15 +1,14 @@
-from rest_framework.response import Response
-from rest_framework import status, generics
-from rest_framework.permissions import IsAdminUser, AllowAny, IsAuthenticated
 from django.utils.dateparse import parse_date
-from helpers.utils import IsOwnerOrIsAdmin, set_false_context, set_true_context
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
-from datetime import datetime
-
-from .serializers import TicketSerializer
-from .models import Tickets
 from flights.models import Flight
-from helpers.utils import validate_date
+from helpers.serialization_message import FAILURE_MSG, SUCCESS_MSG
+from helpers.utils import set_false_context, set_true_context, validate_date
+
+from .models import Tickets
+from .serializers import TicketSerializer
 
 
 class CreateTicket(generics.CreateAPIView):
@@ -23,18 +22,22 @@ class CreateTicket(generics.CreateAPIView):
             flight = Flight.objects.get(pk=flight_id)
 
         except Flight.DoesNotExist:
-            context = set_false_context(None, "The flight does not exist")
+            context = set_false_context(
+                None, FAILURE_MSG["does_not_exist"].format("flight")
+            )
             return Response(data=context, status=status.HTTP_400_BAD_REQUEST)
 
         if flight.bookable_seats < 1:
-            context = set_false_context(None, "The flight seats have all been booked")
+            context = set_false_context(None, FAILURE_MSG["all_seats_booked"])
             return Response(data=context, status=status.HTTP_400_BAD_REQUEST)
 
         data = {"flight_id": kwargs.get("flight_id"), "customer": request.user.id}
         serializer = self.get_serializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            context = set_true_context(serializer.data, "Reservation made successfully, an email will be sent to you shortly")
+            context = set_true_context(
+                serializer.data, SUCCESS_MSG["successful_reservation"]
+            )
             return Response(context, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -44,15 +47,16 @@ class GetReservations(generics.ListAPIView):
     serializer_class = TicketSerializer
 
     def list(self, request, *args, **kwargs):
-        data = None
-        is_valid_date = validate_date(self.request.GET.get('date'))
+        is_valid_date = validate_date(self.request.GET.get("date"))
         if not is_valid_date and is_valid_date is not None:
-            context_error = {"message": "Incorrect data format, should be YYYY-MM-DD"}
+            context_error = {"message": FAILURE_MSG["incorrect_date_format"]}
             return Response(data=context_error, status=status.HTTP_400_BAD_REQUEST)
-        date_str = self.request.GET.get('date')
+        date_str = self.request.GET.get("date")
         if date_str:
             date = parse_date(date_str)
-            reservations = Tickets.objects.filter(payment_status="reserved", created_at=date)
+            reservations = Tickets.objects.filter(
+                payment_status="reserved", created_at=date
+            )
         else:
             reservations = Tickets.objects.filter(payment_status="reserved").all()
         serializer = TicketSerializer(reservations, many=True)

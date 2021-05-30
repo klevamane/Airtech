@@ -3,8 +3,6 @@ from django.db import models
 
 from helpers.models import TimeStamp
 
-# Create your models here.
-
 STATUS = ["landed", "delayed", "active", "filled", "airborne"]
 
 
