@@ -48,7 +48,7 @@ class GetReservations(generics.ListAPIView):
 
     def list(self, request, *args, **kwargs):
         is_valid_date = validate_date(self.request.GET.get("date"))
-        if not is_valid_date and is_valid_date is not None:
+        if not is_valid_date:
             context_error = {"message": FAILURE_MSG["incorrect_date_format"]}
             return Response(data=context_error, status=status.HTTP_400_BAD_REQUEST)
         date_str = self.request.GET.get("date")

@@ -69,6 +69,8 @@ def validate_date(date_text):
     Args:
         date_text(str): The date
     """
+    if not date_text:
+        return False
     try:
         datetime.strptime(date_text, "%Y-%m-%d")
         return True
