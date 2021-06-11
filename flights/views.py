@@ -24,6 +24,7 @@ class ListFlights(generics.ListAPIView):
 class CreateFlight(generics.CreateAPIView):
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
+
     permission_classes = [IsAdminUser]
 
 
